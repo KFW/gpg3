@@ -26,7 +26,7 @@ def print_for_monitoring(elapsed_time, v): # elapsed time is float seconds
     if minutes != last_minutes: # only print when change in elapsed time
         last_minutes = minutes
         print('Elapsed time %i hours, %i minutes' % (hours, minutes))
-        Print('Battery level: %.1f V' % v)
+        print('Battery level: %.1f V' % v)
         print('-') # just for spacing
     
 # BEGIN CALLBACK
