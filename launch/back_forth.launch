@@ -23,5 +23,5 @@
       <param name="frequency" type="double" value="7"/>
   </node>
 
-  <node name="back_forth" pkg="mygopigo" type="back_forth.py" output="screen" />
+  <node name="back_forth" pkg="gpg3" type="back_forth.py" output="screen" />
 </launch>
