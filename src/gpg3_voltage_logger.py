@@ -18,7 +18,7 @@ filename = '/home/pi/test/voltage_' + file_time + '.csv'
 with open(filename, 'w+') as f:
     f.write('time, voltage \n')
 
-def print_duration(elapsed_time): # elapsed time is float seconds
+def print_for_monitoring(elapsed_time, v): # elapsed time is float seconds
     global last_minutes
     et_rounded_down = int(elapsed_time) # will round time down to integer seconds
     hours = et_rounded_down // 3600 
@@ -26,6 +26,7 @@ def print_duration(elapsed_time): # elapsed time is float seconds
     if minutes != last_minutes: # only print when change in elapsed time
         last_minutes = minutes
         print('Elapsed time %i hours, %i minutes' % (hours, minutes))
+        Print('Battery level: %.1f V' % v)
         print('-') # just for spacing
     
 # BEGIN CALLBACK
@@ -39,7 +40,8 @@ def callback(msg):
         with open(filename, 'a') as f:
             f.write(log_string)
         f.close()
-        print_duration(elapsed_time)
+        # if not monitoring the terminal, can comment out line below
+        print_for_monitoring(elapsed_time, msg.data)
 # END CALLBACK
 
 # BEGIN SUBSCRIBER
