@@ -33,8 +33,8 @@ def print_for_monitoring(elapsed_time, v): # elapsed time is float seconds
 def callback(msg):
     global checkpoint_elapsed_time
     elapsed_time = rospy.get_time() - init_time
-    if (elapsed_time - checkpoint_elapsed_time) > 3.0: # 3 secs for testing
-        # will trigger about every 36 seconds or 100 times/hr
+    if (elapsed_time - checkpoint_elapsed_time) > 36
+                                # will trigger about every 36 seconds or 100 times/hr
         checkpoint_elapsed_time = elapsed_time # reset timer
         log_string = '%.2f, %.1f \n' % (elapsed_time, msg.data)
         with open(filename, 'a') as f:
