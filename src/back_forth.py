@@ -23,7 +23,14 @@ def pause():
     pub.publish(move)   
     # print('pause')
 
+def shutdownhook():
+    rospy.loginfo('Shutting down')
+    pause()
+
 rospy.init_node('back_forth')
+rospy.on_shutdown(shutdownhook)
+
+rospy.sleep(10.0) # delay to get set up
 
 rate = rospy.Rate(50)
 pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
