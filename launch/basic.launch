@@ -1,0 +1,7 @@
+<!-- convenience launcher in gpg3 package 
+     launches GoPiGo3 without lidar
+-->
+
+<launch>
+  <node name="gopigo3" pkg="mygopigo" type="gopigo3_driver.py" output="screen" />
+</launch>
