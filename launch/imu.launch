@@ -1,0 +1,3 @@
+<launch>
+  <node name="imu" pkg="mygopigo" type="IMU-sensor.py" output="screen" />
+</launch>

@@ -1,6 +1,7 @@
 <launch>
     <include file="$(find mygopigo)/launch/gopigo3.launch" />
     <include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch" />
+    <!-- include file="$(find gpg3)/launch/imu.launch" / -->
 
     <!-- parameters updated from ydlidar git site X4.launch -->
     <node name="ydlidar_node" pkg="ydlidar" type="ydlidar_node" output="screen" respawn="false" >
