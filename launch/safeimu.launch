@@ -1,0 +1,3 @@
+<launch>
+  <node name="imu" pkg="safeimu" type="safe_imu_sensor.py" output="screen" />
+</launch>
