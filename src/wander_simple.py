@@ -32,7 +32,7 @@ def callback(msg):
         move.angular.z = 0
         pub.publish(move)
 
-rospy.Subscriber('/distance_sensor/distance', Range, callback)
+sub = rospy.Subscriber('/distance_sensor/distance', Range, callback)
 pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
 
 rospy.spin()
