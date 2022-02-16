@@ -12,12 +12,13 @@ from sensor_msgs.msg import LaserScan, Range
 FWD_speed = 1
 REV_speed = 0.5
 
+rospy.init_node("wander_simple")
 
 def callback(msg):
     
 
 
-
+sub = rospy.Subscriber('/scan', LaserScan, callback)
 rospy.Subscriber('/distance_sensor/distance', Range, callback)
 pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
 
