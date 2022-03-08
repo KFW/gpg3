@@ -15,6 +15,8 @@ THRESHOLD = 1.0
 
 rospy.init_node("wander")
 
+move = Twist()
+
 def min_range(ranges):
     min_r = 2.0
     for r in ranges:
@@ -28,14 +30,18 @@ def look_ahead(lidar_msg):
     l = min_range(lidar_msg.ranges[240:300])
     c = min_range(lidar_msg.ranges[300:420])
     r = min_range(lidar_msg.ranges[420:480])
+    sys.loginfo('min range L: %.3f  min range C: %.3f min range R: %.3f' %(l, c, r) )
     return l,c,r
 
 def callback_lidar(lidar_msg):
     left_min_r, center_min_r, right_min_r = look_ahead(lidar_msg)
-    if center_min_r < THRESHOLD:
-        # move forward
-    elif (left_min_r < THRESHOLD) and (right_min_r < THRESHOLD): 
-        if left_min_r < right_min_r:
+    if center_min_r > THRESHOLD:    # no obstacles - keep going
+        sys.loginfo('ahead clear')
+        move.linear.x = FWD_SPEED
+        move.angular.z = 0
+        pub.publish(move)
+    elif (left_min_r > THRESHOLD) or (right_min_r > THRESHOLD): 
+        if left_min_r > right_min_r:
             # turn ~60 degrees left
         else:
             # turn ~60 degrees right
