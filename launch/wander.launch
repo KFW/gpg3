@@ -1,8 +1,8 @@
 <launch>
-  <node name="distance_sensor" pkg="mygopigo" type="distance-sensor.py" output="screen" />
+  <!-- <node name="distance_sensor" pkg="mygopigo" type="distance-sensor.py" output="screen" /> -->
   
   <include file="$(find mygopigo)/launch/gopigo3.launch" />
-  <include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch" />
+  <!-- <include file="$(find raspicam_node)/launch/camerav2_410x308_30fps.launch" /> -->
 
   <node name="ydlidar_node" pkg="ydlidar" type="ydlidar_node" output="screen" respawn="false" >
       <param name="port" type="string" value="/dev/ydlidar"/>
@@ -21,5 +21,5 @@
       <param name="frequency" type="double" value="7"/>
   </node>
   
-  <node name='wander'
+  <node name='wander' pkg="gpg3" type="wander" output="screen">
 </launch>

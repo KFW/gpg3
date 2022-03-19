@@ -35,18 +35,19 @@ def look_ahead(lidar_msg):
 
 def callback_lidar(lidar_msg):
     left_min_r, center_min_r, right_min_r = look_ahead(lidar_msg)
-    if center_min_r > THRESHOLD:    # no obstacles - keep going
-        sys.loginfo('ahead clear')
-        move.linear.x = FWD_SPEED
-        move.angular.z = 0
-        pub.publish(move)
-    elif (left_min_r > THRESHOLD) or (right_min_r > THRESHOLD): 
-        if left_min_r > right_min_r:
-            # turn ~60 degrees left
-        else:
-            # turn ~60 degrees right
-    else:
-        # spin not quite 180 and continue wandering
+    pass
+    # if center_min_r > THRESHOLD:    # no obstacles - keep going
+    #     sys.loginfo('ahead clear')
+    #     move.linear.x = FWD_SPEED
+    #     move.angular.z = 0
+    #     pub.publish(move)
+    # elif (left_min_r > THRESHOLD) or (right_min_r > THRESHOLD): 
+    #     if left_min_r > right_min_r:
+    #         # turn ~60 degrees left
+    #     else:
+    #         # turn ~60 degrees right
+    # else:
+    #     # spin not quite 180 and continue wandering
 
 
 
