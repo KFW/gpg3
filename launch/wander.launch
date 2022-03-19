@@ -21,5 +21,5 @@
       <param name="frequency" type="double" value="7"/>
   </node>
   
-  <node name='wander' pkg="gpg3" type="wander" output="screen">
+  <node name='wander' pkg="gpg3" type="wander" output="screen"/>
 </launch>
