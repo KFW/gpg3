@@ -26,14 +26,16 @@ def min_range(ranges):
     return min_r
 
 def look_ahead(lidar_msg):
-    # look at 120 degrees ahead (30-60-30) by taking appropriate slices of message data
+    # look at 120 degrees ahead (30-60-30 slices) by taking appropriate slices of message data
     l = min_range(lidar_msg.ranges[240:300])
     c = min_range(lidar_msg.ranges[300:420])
     r = min_range(lidar_msg.ranges[420:480])
-    sys.loginfo('min range L: %.3f  min range C: %.3f min range R: %.3f' %(l, c, r) )
+    rospy.loginfo('min range L: %.3f  min range C: %.3f min range R: %.3f' %(l, c, r) )
     return l,c,r
 
+# BEGIN CALLBACKS
 def callback_lidar(lidar_msg):
+    print("received lidar message")
     left_min_r, center_min_r, right_min_r = look_ahead(lidar_msg)
     pass
     # if center_min_r > THRESHOLD:    # no obstacles - keep going
@@ -48,15 +50,19 @@ def callback_lidar(lidar_msg):
     #         # turn ~60 degrees right
     # else:
     #     # spin not quite 180 and continue wandering
-
+# END 
 
 
 # def callback_dist(dist_msg):
 #    pass
     
-
+# BEGIN SUBSCRIBERS
 sub_lidar = rospy.Subscriber('/scan', LaserScan, callback_lidar)
 # sub_dist =  rospy.Subscriber('/distance_sensor/distance', Range, callback_dist)   # if we also want to use TOF sensor in front
+# END 
+
+# BEGIN PUBLISHERS
 pub = rospy.Publisher('cmd_vel', Twist, queue_size=1)
+# END
 
 rospy.spin()
