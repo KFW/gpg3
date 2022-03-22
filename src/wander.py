@@ -37,20 +37,39 @@ def look_ahead(lidar_msg):
 def callback_lidar(lidar_msg):
     print("received lidar message")
     left_min_r, center_min_r, right_min_r = look_ahead(lidar_msg)
-    pass
-    # if center_min_r > THRESHOLD:    # no obstacles - keep going
-    #     sys.loginfo('ahead clear')
-    #     move.linear.x = FWD_SPEED
-    #     move.angular.z = 0
-    #     pub.publish(move)
-    # elif (left_min_r > THRESHOLD) or (right_min_r > THRESHOLD): 
-    #     if left_min_r > right_min_r:
-    #         # turn ~60 degrees left
-    #     else:
-    #         # turn ~60 degrees right
-    # else:
-    #     # spin not quite 180 and continue wandering
-# END 
+
+    if center_min_r > THRESHOLD:    # no obstacles - keep going
+        print('ahead clear')
+        move.linear.x = FWD_SPEED
+        move.angular.z = 0
+        pub.publish(move)
+    elif (left_min_r > THRESHOLD) or (right_min_r > THRESHOLD): 
+        if left_min_r > right_min_r:
+            sys.loginfo('ahead blocked; left clear - turn left')
+            # turn ~60 degrees left
+            move.linear.x = 0
+            move.angular.z = 1  # 1 radian/sec counter-clockwise - takes 6.283 sec to spin one full circle
+            pup.publish(move)
+            rospy.sleep(1.05)   # continue spinning for 1.05 sec to spin ~60 degrees
+            move.linear.x = 0
+            move.angular.z = 0  
+            pub.publish(move)   # stop turn before continuing
+        else:
+            sys.loginfo('ahead blocked; left blocked - turn right')
+            # turn ~60 degrees left
+            move.linear.x = 0
+            move.angular.z = -1  # 1 radian/sec clockwise
+            pup.publish(move)
+            rospy.sleep(1.05)   # continue spinning for 1.05 sec to spin ~60 degrees
+            move.linear.x = 0
+            move.angular.z = 0  
+            pub.publish(move)   # stop turn before continuing
+    else:
+        sys.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
+        move.linear.x = 0
+        move.angular.z = 1
+        rosply.sleep(3.1416)    # turn 180 degrees
+END 
 
 
 # def callback_dist(dist_msg):
