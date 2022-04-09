@@ -9,8 +9,12 @@ import tf
 from geometry_msgs.msg import Twist
 from sensor_msgs.msg import LaserScan, Range
 
+PI = 3.14159        # good enough for this program
+CIRCLE_RADIANS = 2 * PI
 FWD_SPEED = 0.5     # slower to allow lidar to complete more sweeps
-REV_SPEED = 0.25
+SPIN_SPEED = 0.5    # 0.5 radians/sec - ~12.57 sec to spin around completely
+SPIN_ANGLE = 20     # amount we want to spin
+SPIN_TIME = ((SPIN_ANGLE/360) * CIRCLE_RADIANS) / SPIN_SPEED
 THRESHOLD = 1.0
 
 rospy.init_node("wander")
@@ -26,11 +30,11 @@ def min_range(ranges):
     return min_r
 
 def look_ahead(lidar_msg):
-    # look at 120 degrees ahead (45-30-45 degree slices) by taking appropriate slices of message data
+    # look at 45 degrees ahead (20-5-20 degree slices) by taking appropriate slices of message data
     # lidar reports ranges in 0.5 degree increments; 0 is straight back, 360 straight ahead
-    l = min_range(lidar_msg.ranges[240:330])
-    c = min_range(lidar_msg.ranges[330:390])
-    r = min_range(lidar_msg.ranges[390:480])
+    l = min_range(lidar_msg.ranges[315:355])
+    c = min_range(lidar_msg.ranges[355:365])
+    r = min_range(lidar_msg.ranges[365:405])
     rospy.loginfo('min range L: %.3f  min range C: %.3f min range R: %.3f' %(l, c, r) )
     return l,c,r
 
@@ -47,11 +51,11 @@ def callback_lidar(lidar_msg):
     elif (left_min_r > THRESHOLD) or (right_min_r > THRESHOLD): 
         if left_min_r > right_min_r:
             rospy.loginfo('ahead blocked; left clearer than right - turn left')
-            # turn ~60 degrees left
+            # turn ~20 degrees left
             move.linear.x = 0
-            move.angular.z = 1  # 1 radian/sec counter-clockwise - takes 6.283 sec to spin one full circle
-            pup.publish(move)
-            rospy.sleep(1.05)   # continue spinning for 1.05 sec to spin ~60 degrees
+            move.angular.z = SPIN_SPEED # counter-clockwise
+            pub.publish(move)
+            rospy.sleep(SPIN_TIME)
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
@@ -61,9 +65,9 @@ def callback_lidar(lidar_msg):
             rospy.loginfo('ahead blocked; right clearer than left - turn right')
             # turn ~60 degrees left
             move.linear.x = 0
-            move.angular.z = -1  # 1 radian/sec clockwise
-            pup.publish(move)
-            rospy.sleep(1.05)   # continue spinning for 1.05 sec to spin ~60 degrees
+            move.angular.z = -SPIN_SPEED  # clockwise
+            pub.publish(move)
+            rospy.sleep(SPIN_TIME)   
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
