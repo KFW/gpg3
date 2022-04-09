@@ -76,11 +76,11 @@ def callback_lidar(lidar_msg):
         rosply.sleep(3.1416)    # turn 180 degrees
         sys.loginfo('taking a look before proceeding')
         rospy.sleep(1)
-END 
-
 
 # def callback_dist(dist_msg):
 #    pass
+
+# END CALLBACKS
     
 # BEGIN SUBSCRIBERS
 sub_lidar = rospy.Subscriber('/scan', LaserScan, callback_lidar)
