@@ -73,7 +73,7 @@ def callback_lidar(lidar_msg):
         rospy.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
         move.linear.x = 0
         move.angular.z = 1
-        rosply.sleep(3.1416)    # turn 180 degrees
+        rospy.sleep(3.1416)    # turn 180 degrees
         rospy.loginfo('taking a look before proceeding')
         rospy.sleep(1)
 
