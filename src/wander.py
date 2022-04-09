@@ -46,7 +46,7 @@ def callback_lidar(lidar_msg):
         pub.publish(move)
     elif (left_min_r > THRESHOLD) or (right_min_r > THRESHOLD): 
         if left_min_r > right_min_r:
-            sys.loginfo('ahead blocked; left clear - turn left')
+            rospy.loginfo('ahead blocked; left clear - turn left')
             # turn ~60 degrees left
             move.linear.x = 0
             move.angular.z = 1  # 1 radian/sec counter-clockwise - takes 6.283 sec to spin one full circle
@@ -55,10 +55,10 @@ def callback_lidar(lidar_msg):
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
-            sys.loginfo('taking a look before proceeding')
+            rospy.loginfo('taking a look before proceeding')
             rospy.sleep(1)
         else:
-            sys.loginfo('ahead blocked; left blocked - turn right')
+            rospy.loginfo('ahead blocked; left blocked - turn right')
             # turn ~60 degrees left
             move.linear.x = 0
             move.angular.z = -1  # 1 radian/sec clockwise
@@ -67,15 +67,15 @@ def callback_lidar(lidar_msg):
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
-            sys.loginfo('taking a look before proceeding')
+            rospy('taking a look before proceeding')
             rospy.sleep(1)
-    else:
-        sys.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
-        move.linear.x = 0
-        move.angular.z = 1
-        rosply.sleep(3.1416)    # turn 180 degrees
-        sys.loginfo('taking a look before proceeding')
-        rospy.sleep(1)
+        else:
+            rospy.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
+            move.linear.x = 0
+            move.angular.z = 1
+            rosply.sleep(3.1416)    # turn 180 degrees
+            rospy.loginfo('taking a look before proceeding')
+            rospy.sleep(1)
 
 # def callback_dist(dist_msg):
 #    pass
