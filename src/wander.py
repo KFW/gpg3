@@ -15,7 +15,9 @@ FWD_SPEED = 0.5     # slower to allow lidar to complete more sweeps
 SPIN_SPEED = 0.5    # 0.5 radians/sec - ~12.57 sec to spin around completely
 SPIN_ANGLE = 20     # amount we want to spin
 SPIN_TIME = ((SPIN_ANGLE/360) * CIRCLE_RADIANS) / SPIN_SPEED
-THRESHOLD = 1.0
+THRESHOLD = 0.5
+print("PI: " + PI)
+print("Spin time:" + SPIN_TIME)
 
 rospy.init_node("wander")
 
@@ -77,7 +79,7 @@ def callback_lidar(lidar_msg):
         rospy.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
         move.linear.x = 0
         move.angular.z = 1
-        rospy.sleep(3.1416)    # turn 180 degrees
+        rospy.sleep(PI)    # turn 180 degrees
         rospy.loginfo('taking a look before proceeding')
         rospy.sleep(1)
 
