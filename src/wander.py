@@ -67,7 +67,7 @@ def callback_lidar(lidar_msg):
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
-            rospy('taking a look before proceeding')
+            rospy.loginfo('taking a look before proceeding')
             rospy.sleep(1)
         else:
             rospy.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
