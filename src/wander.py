@@ -36,7 +36,7 @@ def look_ahead(lidar_msg):
 
 # BEGIN CALLBACKS
 def callback_lidar(lidar_msg):
-    print("received lidar message")
+    # print("received lidar message")
     left_min_r, center_min_r, right_min_r = look_ahead(lidar_msg)
 
     if center_min_r > THRESHOLD:    # no obstacles - keep going
@@ -55,6 +55,8 @@ def callback_lidar(lidar_msg):
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
+            sys.loginfo('taking a look before proceeding')
+            rospy.sleep(1)
         else:
             sys.loginfo('ahead blocked; left blocked - turn right')
             # turn ~60 degrees left
@@ -65,11 +67,15 @@ def callback_lidar(lidar_msg):
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
+            sys.loginfo('taking a look before proceeding')
+            rospy.sleep(1)
     else:
         sys.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
         move.linear.x = 0
         move.angular.z = 1
         rosply.sleep(3.1416)    # turn 180 degrees
+        sys.loginfo('taking a look before proceeding')
+        rospy.sleep(1)
 END 
 
 
