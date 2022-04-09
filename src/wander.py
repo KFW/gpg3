@@ -26,10 +26,11 @@ def min_range(ranges):
     return min_r
 
 def look_ahead(lidar_msg):
-    # look at 120 degrees ahead (30-60-30 slices) by taking appropriate slices of message data
-    l = min_range(lidar_msg.ranges[240:300])
-    c = min_range(lidar_msg.ranges[300:420])
-    r = min_range(lidar_msg.ranges[420:480])
+    # look at 120 degrees ahead (45-30-45 degree slices) by taking appropriate slices of message data
+    # lidar reports ranges in 0.5 degree increments; 0 is straight back, 360 straight ahead
+    l = min_range(lidar_msg.ranges[240:330])
+    c = min_range(lidar_msg.ranges[330:390])
+    r = min_range(lidar_msg.ranges[390:480])
     rospy.loginfo('min range L: %.3f  min range C: %.3f min range R: %.3f' %(l, c, r) )
     return l,c,r
 
