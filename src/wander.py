@@ -68,7 +68,7 @@ def callback_lidar(lidar_msg):
         else:
             rospy.loginfo('ahead blocked; right clearer than left - turn right')
             move.linear.x = 0
-            move.angular.z = -SPIN_SPEED  # clockwise
+            move.angular.z = SPIN_SPEED * -1.0  # clockwise
             pub.publish(move)
             rospy.sleep(SPIN_TIME)   
             move.linear.x = 0
@@ -77,14 +77,17 @@ def callback_lidar(lidar_msg):
             rospy.loginfo('taking a look before proceeding')
             rospy.sleep(1)
     else:
-        rospy.loginfo('ahead, L, and R blocked; spin around and prepare to go back')
-        move.linear.x = 0
-        move.angular.z = 0.5
-        pub.publish(move)
-        rospy.sleep(2*PI)   # turn 180 degrees
+        rospy.loginfo('ahead, L, and R blocked; back up and spin a bit')
+        move.linear.x = FWD_SPEED * -1.0
+        move.angular.z = 0.0
+        pub.publish(move)   # back up
+        rospy.sleep(2)
         move.linear.x = 0
         move.angular.z = 0  
-        pub.publish(move)   # stop turn before continuing
+        pub.publish(move)   # stop 
+        move.angular.z = SPIN_SPEED
+        pub.publish(move)
+        rospy.sleep(2 * spintime)   # spin left a bit more
         rospy.loginfo('taking a look before proceeding')
         rospy.sleep(1)
 
