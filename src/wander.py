@@ -11,13 +11,14 @@ from sensor_msgs.msg import LaserScan, Range
 
 PI = 3.14159        # good enough for this program
 CIRCLE_RADIANS = 2 * PI
-FWD_SPEED = 0.5     # slower to allow lidar to complete more sweeps
+FWD_SPEED = 0.25    # slower to allow lidar to complete more sweeps
 SPIN_SPEED = 0.5    # 0.5 radians/sec - ~12.57 sec to spin around completely
 SPIN_ANGLE = 20     # amount we want to spin
 SPIN_TIME = ((SPIN_ANGLE/360) * CIRCLE_RADIANS) / SPIN_SPEED
 THRESHOLD = 0.5
-print("PI: " + PI)
-print("Spin time:" + SPIN_TIME)
+rospy.loginfo("PI: " + str(PI))
+rospy.loginfo("Spin speed: " + str(SPIN_SPEED))
+rospy.loginfo("Spin time:" + str(SPIN_TIME))
 
 rospy.init_node("wander")
 
