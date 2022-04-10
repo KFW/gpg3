@@ -87,7 +87,7 @@ def callback_lidar(lidar_msg):
         pub.publish(move)   # stop 
         move.angular.z = SPIN_SPEED
         pub.publish(move)
-        rospy.sleep(2 * spintime)   # spin left a bit more
+        rospy.sleep(2 * SPIN_TIME)   # spin left a bit more
         rospy.loginfo('taking a look before proceeding')
         rospy.sleep(1)
 
