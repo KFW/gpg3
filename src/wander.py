@@ -11,18 +11,16 @@ from sensor_msgs.msg import LaserScan, Range
 
 PI = 3.14159        # good enough for this program
 CIRCLE_RADIANS = 2 * PI
-FWD_SPEED = 0.25    # slower to allow lidar to complete more sweeps
+FWD_SPEED = 0.125   # slower to allow lidar to complete more sweeps
 SPIN_SPEED = 0.5    # 0.5 radians/sec - ~12.57 sec to spin around completely
 SPIN_ANGLE = 20.0     # amount we want to spin
 SPIN_TIME = ((SPIN_ANGLE/360.0) * CIRCLE_RADIANS) / SPIN_SPEED
-THRESHOLD = 0.5
+THRESHOLD = 0.25
 
 rospy.init_node("wander")
-rospy.loginfo("PI: " + str(PI))
-rospy.loginfo("Spin speed: " + str(SPIN_SPEED))
-rospy.loginfo("Spin time:" + str(SPIN_TIME))
-
-
+# rospy.loginfo("PI: " + str(PI))
+# rospy.loginfo("Spin speed: " + str(SPIN_SPEED))
+# rospy.loginfo("Spin time:" + str(SPIN_TIME))
 
 move = Twist()
 
@@ -65,6 +63,7 @@ def callback_lidar(lidar_msg):
             pub.publish(move)   # stop turn before continuing
             rospy.loginfo('taking a look before proceeding')
             rospy.sleep(1)
+            rospy.loginfo('Turned L; taking a look before proceeding')
         else:
             rospy.loginfo('ahead blocked; right clearer than left - turn right')
             move.linear.x = 0
@@ -74,21 +73,21 @@ def callback_lidar(lidar_msg):
             move.linear.x = 0
             move.angular.z = 0  
             pub.publish(move)   # stop turn before continuing
-            rospy.loginfo('taking a look before proceeding')
+            rospy.loginfo('Turned R; taking a look before proceeding')
             rospy.sleep(1)
     else:
         rospy.loginfo('ahead, L, and R blocked; back up and spin a bit')
         move.linear.x = FWD_SPEED * -1.0
         move.angular.z = 0.0
         pub.publish(move)   # back up
-        rospy.sleep(2)
+        rospy.sleep(1)      # 2 seconds
         move.linear.x = 0
         move.angular.z = 0  
         pub.publish(move)   # stop 
         move.angular.z = SPIN_SPEED
         pub.publish(move)
-        rospy.sleep(2 * SPIN_TIME)   # spin left a bit more
-        rospy.loginfo('taking a look before proceeding')
+        rospy.sleep(1.5 * SPIN_TIME)   # spin left a bit more than usual
+        rospy.loginfo('backed up and spun a bit')
         rospy.sleep(1)
 
 # def callback_dist(dist_msg):
