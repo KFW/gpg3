@@ -11,21 +11,21 @@ from sensor_msgs.msg import LaserScan, Range
 
 rospy.init_node("wander_lidar_test")
 
-def min_range(ranges):
-    min_r = 2.0
-    for r in ranges:
-        if r != 0:  # exclude 0 since we know there are a lot of zero values in data
-            if r < min_r:
-                min_r = r
-    return min_r
+# def min_range(ranges):
+#     min_r = 2.0
+#     for r in ranges:
+#         if r != 0:  # exclude 0 since we know there are a lot of zero values in data
+#             if r < min_r:
+#                 min_r = r
+#     return min_r
 
 def look_ahead(lidar_msg):
-    # look at 45 degrees ahead (20-5-20 degree slices) by taking appropriate slices of message data
+    # for testing look L, C, R
     # lidar reports ranges in 0.5 degree increments; 0 is straight back, 360 straight ahead
-    l = min_range(lidar_msg.ranges[315:355])
-    c = min_range(lidar_msg.ranges[355:365])
-    r = min_range(lidar_msg.ranges[365:405])
-    rospy.loginfo('min range L: %.3f  min range C: %.3f min range R: %.3f' %(l, c, r) )
+    l = lidar_msg.ranges[180]
+    c = lidar_msg.ranges[360]
+    r = lidar_msg.ranges[540]
+    rospy.loginfo('range L: %.3f  range C: %.3f min R: %.3f' %(l, c, r) )
     return l,c,r
 
 # BEGIN CALLBACKS
