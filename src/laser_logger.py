@@ -2,7 +2,7 @@
 
 # laser_logger.py
 # create csv log file of lidar readings - check for distance and whether lidar is square to robot
-# collect 100 readings then stop
+# collect 250 readings then stop
 
 import csv
 import rospy
