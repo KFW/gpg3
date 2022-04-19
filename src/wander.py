@@ -33,11 +33,11 @@ def min_range(ranges):
     return min_r
 
 def look_ahead(lidar_msg):
-    # look at 45 degrees ahead (20-5-20 degree slices) by taking appropriate slices of message data
+    # look at 90 degrees ahead (40 - 10 - 40 degree slices) by taking appropriate slices of message data
     # lidar reports ranges in 0.5 degree increments; 0 is straight back, 360 straight ahead
-    l = min_range(lidar_msg.ranges[315:355])
-    c = min_range(lidar_msg.ranges[355:365])
-    r = min_range(lidar_msg.ranges[365:405])
+    l = min_range(lidar_msg.ranges[370:450])
+    c = min_range(lidar_msg.ranges[350:370])
+    r = min_range(lidar_msg.ranges[270:350])
     rospy.loginfo('min range L: %.3f  min range C: %.3f min range R: %.3f' %(l, c, r) )
     return l,c,r
 
@@ -96,7 +96,7 @@ def callback_lidar(lidar_msg):
 # END CALLBACKS
     
 # BEGIN SUBSCRIBERS
-sub_lidar = rospy.Subscriber('/scan', LaserScan, callback_lidar)
+sub_lidar = rospy.Subscriber('/scan', LaserScan, callback_lidar; queue_size=1)
 # sub_dist =  rospy.Subscriber('/distance_sensor/distance', Range, callback_dist)   # if we also want to use TOF sensor in front
 # END 
 
