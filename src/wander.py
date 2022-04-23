@@ -96,7 +96,7 @@ def callback_lidar(lidar_msg):
 # END CALLBACKS
     
 # BEGIN SUBSCRIBERS
-sub_lidar = rospy.Subscriber('/scan', LaserScan, callback_lidar; queue_size=1)
+sub_lidar = rospy.Subscriber('/scan', LaserScan, callback_lidar, queue_size=1)
 # sub_dist =  rospy.Subscriber('/distance_sensor/distance', Range, callback_dist)   # if we also want to use TOF sensor in front
 # END 
 
